@@ -35,14 +35,24 @@
 
 ### 端口分配（启动 dev server 前必读）
 
-按 [agent-rules / workflows/local-dev.md](../agent-rules/agent-rules/workflows/local-dev.md)。**绝不假设默认端口空闲**。
+按 [agent-rules / workflows/local-dev.md](../agent-rules/agent-rules/workflows/local-dev.md)。**绝不假设默认端口空闲**；**绝不 kill 别的项目的进程**。
 
 | 服务 | 默认 | 探测段 | env 覆盖 |
 |---|---|---|---|
 | FastAPI backend | 8000 | 8000-8010 | `--port` flag |
-| Next.js frontend | 3000 | 3000-3010 | `npm run dev -- --port N` |
+| Next.js frontend | **3003** | 3003-3010（**跳过 3000/3001/3002**）| `npm run dev -- --port N` |
 
-**注意**：`fin-pilot` 也用同样端口段。同时跑两个项目时按 lsof 探测顺序往后顺移，并相应改 `CORS_ORIGINS` / `NEXT_PUBLIC_API_URL`。
+**用户保留段（macOS）—— 即使探测显示空闲也不许用**：
+
+| 端口 | 占用方 | 说明 |
+|---|---|---|
+| 3000 | 长期挂在那的某 node 进程（外部）| 用户日常依赖；不许碰 |
+| 3001 | 用户**另一个项目** | 偶发占用；不许碰 |
+| 3002 | Code Helper（macOS 系统） | 不许碰 |
+
+ask-cfo 的 frontend **从 3003 起步**。fin-pilot 同时也用 3000-3010 段，所以两边
+联动跑时按 lsof + AGENTS.md 双重过滤后顺移，并把实际选定的 port 通过
+`CORS_ORIGINS` / `NEXT_PUBLIC_API_URL` 同步配。
 
 ### 版本管理
 - 当前版本：见 [`VERSIONS.md`](VERSIONS.md)
