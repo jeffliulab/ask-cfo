@@ -1,4 +1,4 @@
-# agent-as-a-cfo — Cursor for Accountants & CFOs
+# Ask CFO — Cursor for Accountants & CFOs
 
 > "财务版 Cursor" — three-pane AI workspace for bookkeeping, month-end close,
 > tax filing, and regulation lookup. Borrows the proven UI shell from
@@ -44,7 +44,7 @@ look up "what does the regulation actually say" multiple times per day.
 ## Repo layout
 
 ```
-agent-as-a-cfo/
+ask-cfo/
 ├── AGENTS.md / CLAUDE.md         agent rules entry
 ├── VERSIONS.md                   version overview (rapid-versioning)
 ├── README.md / README_zh.md      English / Chinese
@@ -75,7 +75,7 @@ See [docs/QUICKSTART.md](docs/QUICKSTART.md). TL;DR:
 
 ```bash
 # Backend
-conda create -n agent-as-a-cfo python=3.11 -y && conda activate agent-as-a-cfo
+conda create -n ask-cfo python=3.11 -y && conda activate ask-cfo
 pip install -e ".[dev]"
 cp .env.example .env  # set LLM_PROVIDER + key (DeepSeek recommended for CFO)
 uvicorn backend.main:app --reload --port 8000

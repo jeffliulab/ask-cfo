@@ -1,4 +1,4 @@
-# agent-as-a-cfo · 财务版 Cursor
+# Ask CFO · 财务版 Cursor
 
 > 借鉴姐妹项目 [`fin-pilot`](https://github.com/jeffliulab/fin-pilot)（同一形态做金融分析师工具）
 > 已验证的"三栏 AI 工作台"形态，让财务人员的凭证 / 月结 / 报税 / 法规检索日常被 AI 加速。
@@ -36,7 +36,7 @@
 ## 仓库结构
 
 ```
-agent-as-a-cfo/
+ask-cfo/
 ├── AGENTS.md / CLAUDE.md         agent 规则入口
 ├── VERSIONS.md                   版本总览（rapid-versioning）
 ├── README.md / README_zh.md      英文 / 中文
@@ -66,7 +66,7 @@ agent-as-a-cfo/
 
 ```bash
 # 后端
-conda create -n agent-as-a-cfo python=3.11 -y && conda activate agent-as-a-cfo
+conda create -n ask-cfo python=3.11 -y && conda activate ask-cfo
 pip install -e ".[dev]"
 cp .env.example .env  # 填 LLM_PROVIDER + 对应 key（CFO 推荐 DeepSeek）
 uvicorn backend.main:app --reload --port 8000

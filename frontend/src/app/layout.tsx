@@ -19,7 +19,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "agent-as-a-cfo · 财务版 Cursor",
+  title: "Ask CFO · 财务版 Cursor",
   description:
     "面向中国小微企业 / 代账机构的 AI 财务工作台：左菜单选模块（凭证 / 月结 / 报表 / 报税 / 法规），中工作区沉淀凭证 / 报表卡片，右聊天追问。",
 };

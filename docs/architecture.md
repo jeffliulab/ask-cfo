@@ -1,4 +1,4 @@
-# agent-as-a-cfo 系统架构
+# Ask CFO 系统架构
 
 > Framework 壳子从 fin-pilot v0.1.0（commit `ac6f87c`）复制 —— 三层 backend
 > + 三栏 frontend + LangGraph 单 agent 编排 + Vercel AI SDK Data Stream
@@ -173,7 +173,7 @@ QDRANT_URL=
 
 ```bash
 # 后端（终端 A）
-conda activate agent-as-a-cfo
+conda activate ask-cfo
 uvicorn backend.main:app --reload --port 8000
 
 # 前端（终端 B）

@@ -52,7 +52,7 @@ class TestPrepareNode:
         assert "rendered_system" in result
         assert "rendered_prompt" in result
         # system prompt 关键词（CFO 助手）
-        assert "agent-as-a-cfo" in result["rendered_system"]
+        assert "Ask CFO" in result["rendered_system"]
         assert "[N]" in result["rendered_system"]
         # follow_up 包含工作区 + 引用 + 用户问题
         prompt = result["rendered_prompt"]

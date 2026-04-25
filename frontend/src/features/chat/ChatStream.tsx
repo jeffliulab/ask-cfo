@@ -16,6 +16,8 @@ import type { ChatMessage } from "@/types/chat";
 type Props = {
   messages: ChatMessage[];
   isStreaming: boolean;
+  /** 当前 module 是否激活（v0.1 仅 regulations）。影响空状态文案. */
+  moduleActive?: boolean;
 };
 
 const CITATION_REGEX = /\[(\d+)\]/g;
@@ -74,7 +76,7 @@ function MessageBubble({ msg, isLast, isStreaming }: { msg: ChatMessage; isLast:
   return (
     <div className="flex flex-col gap-1">
       <div className="text-[10px] uppercase tracking-wider text-muted-foreground">
-        FinPilot
+        Ask CFO
       </div>
       <div className="text-sm leading-relaxed whitespace-pre-wrap">
         {showSpinner ? (
@@ -87,15 +89,17 @@ function MessageBubble({ msg, isLast, isStreaming }: { msg: ChatMessage; isLast:
   );
 }
 
-export function ChatStream({ messages, isStreaming }: Props) {
+export function ChatStream({ messages, isStreaming, moduleActive = true }: Props) {
   if (messages.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center gap-3 pt-12 text-center">
         <div className="text-sm text-muted-foreground">
-          先在左侧选个股票，然后在下方提问。
+          {moduleActive
+            ? "在下方输入框提问，或点工作区的示例查询。"
+            : "本模块在 v0.2+ 启用。先去法规问答试试 →"}
         </div>
         <div className="text-[11px] text-muted-foreground/70">
-          回答会基于工作区当前的卡片，引用以 [N] 角标显示
+          回答带 [N] 角标，点开右侧抽屉看法规原文
         </div>
       </div>
     );

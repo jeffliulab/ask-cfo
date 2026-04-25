@@ -20,7 +20,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from backend import __version__
 from backend.config import get_settings
-from backend.routes import chat, health
+from backend.routes import chat, health, regulations
 
 logger = logging.getLogger(__name__)
 
@@ -38,18 +38,18 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     settings = get_settings()
     _setup_logging(settings.log_level)
     logger.info(
-        "agent-as-a-cfo backend v%s 启动 (LLM=%s)",
+        "ask-cfo backend v%s 启动 (LLM=%s)",
         __version__,
         settings.llm.provider.value,
     )
     yield
-    logger.info("agent-as-a-cfo backend v%s 关闭", __version__)
+    logger.info("ask-cfo backend v%s 关闭", __version__)
 
 
 def create_app() -> FastAPI:
     settings = get_settings()
     app = FastAPI(
-        title="agent-as-a-cfo",
+        title="Ask CFO",
         version=__version__,
         description="财务记账与报税 Agent —— 三栏 AI 工作台",
         lifespan=lifespan,
@@ -66,7 +66,8 @@ def create_app() -> FastAPI:
     # 注册 routes
     app.include_router(health.router)
     app.include_router(chat.router)
-    # v0.1+ 加 CFO 模块 routes：bookkeeping / month_end / reports / tax_filing / regulations
+    app.include_router(regulations.router)  # v0.1.0 法规问答（agent search）
+    # v0.2+ CFO 模块路由：bookkeeping / month_end / reports / tax_filing
 
     return app
 

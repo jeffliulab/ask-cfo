@@ -1,4 +1,4 @@
-# agent-as-a-cfo v0.1.0 本地启动指南
+# Ask CFO v0.1.0 本地启动指南
 
 > 第一次跑请按这个顺序来。需要：Python 3.11+ 和 Node 22+，以及一个 LLM
 > provider 的 API key（CFO 场景推荐 DeepSeek）。
@@ -10,9 +10,9 @@
 ### 1.1 建虚拟环境
 
 ```bash
-cd /path/to/agent-as-a-cfo
-conda create -n agent-as-a-cfo python=3.11 -y
-conda activate agent-as-a-cfo
+cd /path/to/ask-cfo
+conda create -n ask-cfo python=3.11 -y
+conda activate ask-cfo
 ```
 
 > 如果已经在 fin-pilot 用过 conda，可以共用 env 节省磁盘 —— 两个项目依赖几乎重叠
@@ -25,7 +25,10 @@ conda activate agent-as-a-cfo
 pip install -e ".[dev]"
 ```
 
-> 首次安装大约 1-2 分钟（fastapi + langgraph + 4 LLM SDK + pytest 等）。
+> 首次安装大约 1-2 分钟（fastapi + langgraph + 4 LLM SDK + rank-bm25 + jieba + pytest 等）。
+
+> v0.1.0 法规种子库已在 `backend/data/regulations/seed.yaml`（10 条覆盖增值税 / 企业所得税 / 个税 / CAS）。
+> 启动时会被 ``seed_loader.load_seed()`` lazy 加载到内存；**无需预处理 / 无 vector DB / 无 embedding 步骤** —— 这是 v0.1 agent search 方案的核心。后续扩种到 30-50 条时 yaml 直接加项即可，不需要重建索引。
 
 ### 1.3 配 .env
 
@@ -61,7 +64,9 @@ CORS_ORIGINS=http://localhost:3000
 
 ```bash
 pytest backend/tests/ -v
-# 期望：17 passed（chat orchestrator + chat route + 4 provider stream paths）
+# v0.1.0 期望：89 passed
+#   - chat orchestrator (9) + chat route (8)
+#   - seed loader (18) + keyword search (31) + regulation agent (10) + regulations route (13)
 ```
 
 ### 1.5 启动 backend
@@ -115,23 +120,34 @@ npm run dev
 
 ## 3. 试试
 
-1. 浏览器打开 http://localhost:3000 —— 自动重定向到 `/bookkeeping`（占位页）
+1. 浏览器打开 http://localhost:3000 —— 自动重定向到 `/bookkeeping`（v0.2 才实施，先去 `/regulations`）
 2. 左菜单可见 5 个模块：
-   - **凭证录入** ⭐（active，目前是占位页）
-   - 月结对账 / 财务报表 / 报税申报（disabled，标 v0.2 / v0.3 / v0.4）
-   - **法规问答** ⭐（active，目前是占位页）
-3. 右栏 ChatPanel 输入框 disabled —— 因为还没实现具体的 workspace 数据流
-   （v0.1 待 PRD 决策 A + B 之后实施）
-4. 仅可演示形态：三栏布局 / Citation Drawer 框架 / chat 后端 streaming（curl 可测）
+   - **法规问答** ⭐ v0.1.0 active（agent search + tool_use 多轮）
+   - 凭证录入 v0.2 / 月结对账 v0.3 / 财务报表 v0.4 / 报税申报 v0.5（左菜单显示但 disabled）
+3. 在 `/regulations` 页面：
+   - 中区上方有 4 个示例查询按钮（"研发费用加计扣除比例" / "餐饮发票能抵进项吗" 等）
+   - 点示例 → 右栏 ChatPanel 自动 send 该查询
+   - Backend agent 多轮调 search → get → 流式输出答案 + 出条款卡片
+   - 中区显示「Agent 检索轨迹」折叠面板，可展开看 agent 调了哪些 tool
+   - 答案里 [N] 角标点开 → 右抽屉打开 source_url 外链
+4. 也可直接在 ChatPanel 输入框打字提问。
 
-要让 chat 真跑起来：
+直接测 backend（无前端）：
 
 ```bash
+# 通用 chat（无 tool_use）
 curl -sS -N http://localhost:8000/api/v1/chat/stream \
   -X POST -H "Content-Type: application/json" \
   -d '{"message":"用一句话解释什么是进项税额","cards":[],"citations":[]}' \
   -w "\n[HTTP %{http_code}]\n"
-# 应看到 0:"text" 流 + d:{...} finish part
+
+# 法规问答 agent（v0.1 主路由，有 tool_use 多轮）
+curl -sS -N http://localhost:8000/api/v1/regulations/qa/stream \
+  -X POST -H "Content-Type: application/json" \
+  -d '{"message":"研发费用加计扣除比例是多少？","history":[]}' \
+  -w "\n[HTTP %{http_code}]\n"
+# 应看到 2:[{type:"tool_call"}] / 2:[{type:"tool_result"}] / 2:[{type:"card"}]
+# / 0:"text" delta / 2:[{citations:...}] / d:{finishReason:"stop"} 序列
 ```
 
 ---

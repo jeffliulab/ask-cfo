@@ -1,8 +1,9 @@
 import { redirect } from "next/navigation";
 
 /**
- * 根路径默认跳转到凭证录入模块（v0.1 第一个上线候选；docs/PRD.md 确认后调整）.
+ * 根路径默认跳转到 v0.1.0 主模块：法规问答（agent search）.
+ * v0.2+ 上线凭证录入后视情况调整默认.
  */
 export default function Home() {
-  redirect("/bookkeeping");
+  redirect("/regulations");
 }

@@ -1,4 +1,4 @@
-# Salvage Map — 旧仓库 → agent-as-a-cfo
+# Salvage Map — 旧仓库 → Ask CFO
 
 记录 2026-04-24 从 5 个已封存的旧 GitHub 仓库中搬运了哪些"财务"相关资产。
 原始仓库均已 archived 但仍可公开只读访问，需要追溯直接去 GitHub 看：

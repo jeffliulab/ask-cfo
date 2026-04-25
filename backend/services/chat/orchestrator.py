@@ -149,6 +149,10 @@ class ChatOrchestrator:
         self._model = _resolve_model(settings)
         self._client: Any = None  # 类型按 provider 不同；下面分支化构造
 
+        # 注：v0.2+ module agent（RegulationAgent / BookkeepingAgent ...）通过
+        # ``get_client()`` / ``get_model()`` / ``get_provider()`` 复用 client，
+        # 自己组装 tool_use 循环，不重写 orchestrator（plan §A）。
+
         if self._provider == LLMProviderType.ANTHROPIC:
             if not settings.anthropic_api_key:
                 raise ValueError(
@@ -188,6 +192,22 @@ class ChatOrchestrator:
                 f"未知 provider={self._provider.value}；当前支持 "
                 f"anthropic / openai / deepseek / ollama"
             )
+
+    # === Accessors for module-specific agents（v0.1+ tool_use loop）===
+    def get_client(self) -> Any:
+        """Return the underlying provider client（已构造）。"""
+        return self._client
+
+    def get_model(self) -> str:
+        """Resolved model name string."""
+        return self._model
+
+    def get_provider(self) -> LLMProviderType:
+        """Active LLM provider enum."""
+        return self._provider
+
+    def get_temperature(self) -> float:
+        return self._settings.temperature
 
     async def stream(self, request: ChatRequest) -> AsyncIterator[ChatChunk]:
         """Yield ChatChunk per provider stream event + final finish chunk."""

@@ -1,4 +1,4 @@
-# agent-as-a-cfo — Agent 规则入口
+# Ask CFO — Agent 规则入口
 
 本项目遵守 [`~/Local_Root/agent-rules/agent-rules/`](../agent-rules/agent-rules/) 的统一规范。
 
@@ -23,7 +23,7 @@
 ## 项目专属约定
 
 ### 范围边界
-- 本项目（agent-as-a-cfo）只做**财务**（记账 / 月结 / 报表 / 报税 / 法规问答）
+- 本项目（Ask CFO）只做**财务**（记账 / 月结 / 报表 / 报税 / 法规问答）
 - 投资 / 投研 / 行情 / 合规审查 → 姐妹项目 [`fin-pilot`](https://github.com/jeffliulab/fin-pilot)
 - v0.1 候选优先级：**凭证录入 + 法规问答**（详见 docs/PRD.md §4）
 

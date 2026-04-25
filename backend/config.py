@@ -74,7 +74,7 @@ class Settings(BaseSettings):
     api: APISettings = Field(default_factory=APISettings)
 
     log_level: str = Field(default="INFO", validation_alias="LOG_LEVEL")
-    log_file: str = Field(default="logs/agent-as-a-cfo.log", validation_alias="LOG_FILE")
+    log_file: str = Field(default="logs/ask-cfo.log", validation_alias="LOG_FILE")
 
 
 @lru_cache(maxsize=1)

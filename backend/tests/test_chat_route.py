@@ -18,10 +18,10 @@ from fastapi.testclient import TestClient
 from backend.config import get_settings
 from backend.interfaces import Citation
 from backend.main import create_app
-from backend.routes.chat import (
-    _encode_data_part,
-    _encode_finish_part,
-    _encode_text_part,
+from backend.routes._dsp import (
+    encode_data_part as _encode_data_part,
+    encode_finish_part as _encode_finish_part,
+    encode_text_part as _encode_text_part,
 )
 from backend.services.chat.orchestrator import ChatChunk
 
@@ -100,10 +100,17 @@ class TestChatStreamEndpoint:
         assert "AKShare" in lines[2]
 
     def test_init_failure_returns_503(self, client: TestClient) -> None:
-        # 不 patch ChatOrchestrator，让 ANTHROPIC_API_KEY 缺失自然报错
-        resp = client.post(
-            "/api/v1/chat/stream",
-            json={"message": "hi", "cards": [], "citations": []},
-        )
+        # 显式让 ChatOrchestrator() 抛 ValueError —— 模拟 API key 缺失场景
+        # 不依赖实际 env 状态（dev 机器上可能配了某个 provider key）
+        def _raise_init(*args: Any, **kwargs: Any) -> None:
+            raise ValueError("ANTHROPIC_API_KEY 未设置（LLM_PROVIDER=anthropic）")
+
+        with patch(
+            "backend.routes.chat.ChatOrchestrator", side_effect=_raise_init
+        ):
+            resp = client.post(
+                "/api/v1/chat/stream",
+                json={"message": "hi", "cards": [], "citations": []},
+            )
         assert resp.status_code == 503
         assert "ANTHROPIC_API_KEY" in resp.json()["detail"]

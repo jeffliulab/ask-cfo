@@ -63,6 +63,20 @@ class CFOModuleProvider(Protocol):
     name: str
 
 
+# === Module-specific WorkspaceCard payloads ===
+@dataclass
+class RegulationSnippetPayload:
+    """``card_type='regulation_snippet'`` 的 payload —— v0.1 法规问答."""
+
+    reg_id: str  # e.g. "cit-rd-superdeduction-100pct-2023"
+    source_name: str
+    chapter: str
+    article_number: str
+    summary: str
+    full_text: str
+    category: str  # "VAT" | "CIT" | "IIT" | "CAS"
+
+
 # === Errors ===
 class DataSourceError(RuntimeError):
     """Raised when an external data source (OCR / RAG / 国税局接口) fails.

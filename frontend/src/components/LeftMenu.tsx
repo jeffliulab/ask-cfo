@@ -31,26 +31,34 @@ type ModuleEntry = {
 
 const MODULES: ModuleEntry[] = [
   {
+    href: "/regulations",
+    label: "法规问答",
+    icon: FileSearch,
+    enabled: true, // v0.1.0 主模块（agent search + tool_use）
+    hint: "agent 检索税法 / 会计准则 + [N] 引用原文",
+  },
+  {
     href: "/bookkeeping",
     label: "凭证录入",
     icon: Receipt,
-    enabled: true, // v0.1 可达页面（具体功能待 PRD 决定）
-    hint: "发票/银行流水 → AI 草拟会计分录",
+    enabled: false,
+    comingIn: "v0.2",
+    hint: "发票 OCR → AI 草拟会计分录 + 准则引用",
   },
   {
     href: "/month-end",
     label: "月结对账",
     icon: ClipboardCheck,
     enabled: false,
-    comingIn: "v0.2",
-    hint: "凭证审核 + 试算平衡 + 出报表",
+    comingIn: "v0.3",
+    hint: "凭证审核 + 试算平衡 + 期末结转",
   },
   {
     href: "/reports",
     label: "财务报表",
     icon: FileSpreadsheet,
     enabled: false,
-    comingIn: "v0.3",
+    comingIn: "v0.4",
     hint: "三大报表 + 多期对比 + 比率分析",
   },
   {
@@ -58,15 +66,8 @@ const MODULES: ModuleEntry[] = [
     label: "报税申报",
     icon: Building2,
     enabled: false,
-    comingIn: "v0.4",
-    hint: "增值税 / 企业所得税 / 个税自动计算 + 预填表",
-  },
-  {
-    href: "/regulations",
-    label: "法规问答",
-    icon: FileSearch,
-    enabled: true, // v0.1 可达（演示三栏壳的最小路径）
-    hint: "RAG 检索税法 / 会计准则 + 引用原文",
+    comingIn: "v0.5",
+    hint: "agentic 报税：sub-agents + plan-execute-reflect",
   },
 ];
 
@@ -79,7 +80,7 @@ export function LeftMenu() {
       <div className="mb-4 flex items-center gap-2 px-2">
         <Sparkles className="h-5 w-5 text-primary" />
         <div>
-          <div className="text-sm font-semibold leading-tight">CFO Agent</div>
+          <div className="text-sm font-semibold leading-tight">Ask CFO</div>
           <div className="text-[10px] uppercase tracking-wider text-muted-foreground">
             v0.1 · dev
           </div>

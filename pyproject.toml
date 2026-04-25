@@ -1,7 +1,7 @@
 [project]
-name = "agent-as-a-cfo"
+name = "ask-cfo"
 version = "0.1.0.dev"
-description = "agent-as-a-cfo — AI 财务工作台 (凭证 / 月结 / 报表 / 报税 / 法规问答)。三栏 IDE 形态借鉴姐妹项目 fin-pilot。"
+description = "Ask CFO — AI 财务工作台 (凭证 / 月结 / 报表 / 报税 / 法规问答)。三栏 IDE 形态借鉴姐妹项目 fin-pilot。"
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "TBD" }
@@ -26,13 +26,18 @@ dependencies = [
     "python-dotenv>=1.0",
     "pyyaml>=6.0",
     "loguru>=0.7",
+
+    # === v0.1 法规问答 agent search（不上 vector DB，用 BM25 keyword + LLM tool_use） ===
+    "rank-bm25>=0.2.2",
+    "jieba>=0.42",
 ]
 
 # CFO 模块依赖在各模块上线时增补，例如：
-#   - 凭证录入 OCR：azure-ai-documentintelligence / 腾讯云 OCR / 自部署 PaddleOCR
-#   - 法规 RAG：chromadb / qdrant-client / sentence-transformers
-#   - 报税自动化：playwright / selenium（参考 legacy/wencfo/tax_service）
+#   - 凭证录入 OCR：腾讯云 OCR + GPT-4o vision fallback（v0.2）
+#   - 报税申报：langgraph SqliteSaver checkpointer（v0.5）
 #   - 数据库：sqlalchemy / alembic（v0.4 持久化引入时）
+#   - MCP servers：mcp（v0.6 法规库 / 税计算器抽出独立子项目）
+# 不引入：chromadb / qdrant / embedding model（north star，详见 .claude/plans/）
 
 [project.optional-dependencies]
 dev = [
@@ -45,7 +50,7 @@ dev = [
 
 # v0.1 暂不开放命令行入口；v0.4 引入持久化时再加
 # [project.scripts]
-# agent-as-a-cfo = "backend.main:cli"
+# ask-cfo = "backend.main:cli"
 
 [build-system]
 requires = ["setuptools>=68", "wheel"]
