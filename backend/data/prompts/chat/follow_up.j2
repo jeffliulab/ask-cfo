@@ -1,0 +1,28 @@
+{# 用户追问的 prompt 模板：把工作区当前卡片 + 引用源注入，再贴用户问题 #}
+{# 模板变量：cards（list[dict]）, citations（list[dict, 含 label/source_name/url]）, user_message（str） #}
+
+## 当前工作区上下文
+
+下面是用户当前看到的工作区卡片（按你的能力**只用这些数据**回答问题；
+不要假设工作区之外的事实）：
+
+{% for card in cards %}
+### 卡片 {{ loop.index }}：{{ card.title }}（{{ card.card_type }}）
+
+{# v0.1 cards 是通用 placeholder；具体 card_type 的渲染随各 CFO 模块上线时增补 #}
+```json
+{{ card.payload | tojson(indent=2) }}
+```
+
+{% endfor %}
+
+## 可用引用源
+
+回答时引用下面的 `[N]`：
+{% for cite in citations %}
+- {{ cite.label }} {{ cite.source_name }}{% if cite.url %} — {{ cite.url }}{% endif %}
+{% endfor %}
+
+## 用户问题
+
+{{ user_message }}

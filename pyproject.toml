@@ -1,0 +1,68 @@
+[project]
+name = "agent-as-a-cfo"
+version = "0.1.0.dev"
+description = "agent-as-a-cfo — AI 财务工作台 (凭证 / 月结 / 报表 / 报税 / 法规问答)。三栏 IDE 形态借鉴姐妹项目 fin-pilot。"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "TBD" }
+authors = [{ name = "Pang (Jeff) Liu", email = "jeff.pang.liu@gmail.com" }]
+
+dependencies = [
+    # === Web 框架 ===
+    "fastapi>=0.115",
+    "uvicorn[standard]>=0.32",
+    "pydantic>=2.9",
+    "pydantic-settings>=2.5",
+    "httpx>=0.27",
+
+    # === LLM + Agent 编排（与 fin-pilot 共用 4 provider 矩阵） ===
+    "anthropic>=0.39",
+    "openai>=1.50",
+    "langchain>=0.3",
+    "langgraph>=0.2",
+    "jinja2>=3.1",
+
+    # === 工具 ===
+    "python-dotenv>=1.0",
+    "pyyaml>=6.0",
+    "loguru>=0.7",
+]
+
+# CFO 模块依赖在各模块上线时增补，例如：
+#   - 凭证录入 OCR：azure-ai-documentintelligence / 腾讯云 OCR / 自部署 PaddleOCR
+#   - 法规 RAG：chromadb / qdrant-client / sentence-transformers
+#   - 报税自动化：playwright / selenium（参考 legacy/wencfo/tax_service）
+#   - 数据库：sqlalchemy / alembic（v0.4 持久化引入时）
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3",
+    "pytest-asyncio>=0.24",
+    "pytest-mock>=3.14",
+    "ruff>=0.7",
+    "mypy>=1.13",
+]
+
+# v0.1 暂不开放命令行入口；v0.4 引入持久化时再加
+# [project.scripts]
+# agent-as-a-cfo = "backend.main:cli"
+
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["backend*"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W", "UP"]
+ignore = ["E501"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["backend/tests"]

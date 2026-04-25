@@ -7,17 +7,23 @@
 - https://github.com/jeffliulab/financial_advisor *(archived)*
 - https://github.com/jeffliulab/cfoknows-system *(archived)*
 
-## 主代码
+## 当前位置
 
-### `brain/` ← `wencfo/brain/`
+> 2026-04-24 Day 0：原 `brain/` `backend/` `tax_service/` 三个目录从根目录
+> `git mv` 到 `legacy/wencfo/`（参考用，**不维护**），给 fin-pilot 复制过来的
+> 全栈 framework（v0.1.0 commit ac6f87c）让位。
+
+### `legacy/wencfo/brain/` ← 原 `wencfo/brain/`
 - `app/main.py` —— FastAPI lifespan、CORS、健康检查脚手架
 - `requirements.txt` —— LangChain / LangGraph / OpenAI / pypdf2 / python-docx
+- **复用价值**：v0.5+ 真做 RAG 时参考 `pypdf2/python-docx` PDF 解析
 
-### `backend/` ← `wencfo/backend/`
+### `legacy/wencfo/backend/` ← 原 `wencfo/backend/`
 - `app/` —— DB 模型、用户体系、鉴权（python-jose / passlib）、用户上下文中间件
 - Alembic 迁移、Pydantic v2、SQLAlchemy ORM
+- **复用价值**：v0.4 引入持久化 + v0.6 多用户/代账权限隔离时参考鉴权范式
 
-### `tax_service/` ← `wencfo/tax_service/`
+### `legacy/wencfo/tax_service/` ← 原 `wencfo/tax_service/`
 - `app/services/`：
   - `base_tax_service.py` —— 抽象基类
   - `browser_tax_service.py` —— Playwright / Selenium 浏览器自动化（应对国地税官网）
@@ -25,6 +31,7 @@
   - `tax_service_factory.py` —— 工厂模式按地区/税种切换
 - `app/api/v1/api.py` —— REST 接口
 - 依赖：Playwright + Celery + openpyxl/xlsxwriter
+- **复用价值**：v0.4 报税申报模块的核心参考（国地税电子税务局自动化）
 
 ## 曾经一度保留、现已删除的参考资产
 
