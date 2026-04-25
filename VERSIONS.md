@@ -6,9 +6,9 @@
 ## 当前开发
 
 ```
-（v0.1.0 已封版于 2026-04-25；v0.2.0 凭证录入待 ack 启动）
 v0.2.0   凭证录入：拍发票 → OCR → AI 草拟分录 + 准则引用 + 税务标记
          OCR provider：腾讯云 + GPT-4o vision fallback
+         任务清单 + 日志：docs/versions/v0.2.0-开发中.md
          开始日期：待 ack
 ```
 
@@ -41,7 +41,7 @@ v0.1.0   全栈骨架 + 法规问答 MVP（agent search 方案）
          89 backend tests + npm run build 通；/regulations 路由 first-load 105 KB
          归档日期：2026-04-25
          git tag：v0.1.0
-         开发日志：docs/versions/v0.1.0.md
+         开发日志：docs/versions/v0.1.0-封版.md
 ```
 
 ---

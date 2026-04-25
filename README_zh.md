@@ -48,7 +48,7 @@ ask-cfo/
 │   ├── QUICKSTART.md             本地启动指南
 │   ├── NEXT_STEPS.md             当前 v0.1 任务清单
 │   ├── SALVAGE_MAP.md            wencfo 旧代码出处追溯
-│   └── versions/v0.1.0.md        v0.1 开发日志
+│   └── versions/v0.1.0-封版.md   v0.1 开发日志（已封版）
 ├── backend/                      FastAPI 三层（routes/services/repositories）
 ├── frontend/                     Next.js 5 模块占位页 + 三栏壳
 └── legacy/wencfo/                旧 wencfo 工程（参考用，不维护）

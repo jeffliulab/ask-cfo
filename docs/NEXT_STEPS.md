@@ -6,8 +6,8 @@
 
 ## 当前状态
 
-- ✅ **v0.1.0 已封版**（2026-04-25，git tag `v0.1.0`）—— 详见 [versions/v0.1.0.md](versions/v0.1.0.md)
-- ⏳ **v0.2.0 凭证录入** —— 待 ack 启动；day-by-day 计划见 [.claude/plans/](../.claude/plans/0-1-0-4-0-5-0-6-rag-agent-hidden-russell.md) §v0.2.0
+- ✅ **v0.1.0 已封版**（2026-04-25，git tag `v0.1.0`）—— 详见 [versions/v0.1.0-封版.md](versions/v0.1.0-封版.md)
+- ⏳ **v0.2.0 凭证录入** —— 待 ack 启动；任务清单 + 日志 [versions/v0.2.0-开发中.md](versions/v0.2.0-开发中.md)；macro plan 见 [.claude/plans/](../.claude/plans/0-1-0-4-0-5-0-6-rag-agent-hidden-russell.md) §v0.2.0
 - 全程 north star：不引入 vector DB / embedding（v0.1-v0.6 均不上）
 
 ## v0.2.0 概要（计划，未启动）

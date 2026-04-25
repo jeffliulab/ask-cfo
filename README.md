@@ -56,7 +56,7 @@ ask-cfo/
 │   ├── QUICKSTART.md             local setup walkthrough
 │   ├── NEXT_STEPS.md             current v0.1 task list
 │   ├── SALVAGE_MAP.md            old wencfo code provenance
-│   └── versions/v0.1.0.md        per-version dev log
+│   └── versions/v0.1.0-封版.md   per-version dev log (sealed)
 ├── backend/                      FastAPI three-layer (routes/services/repositories)
 ├── frontend/                     Next.js shell with 5 module pages
 └── legacy/wencfo/                old wencfo project (reference, not maintained)

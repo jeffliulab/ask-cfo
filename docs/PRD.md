@@ -234,6 +234,7 @@ v1.0.0  开源发布 + 文档站 + 找种子用户（中小代账机构）
 | [`architecture.md`](architecture.md) | 系统架构（前端组件 / 后端三层 / 数据流） |
 | [`QUICKSTART.md`](QUICKSTART.md) | 本地启动指南 |
 | [`NEXT_STEPS.md`](NEXT_STEPS.md) | 当前 v0.1.0 任务清单 |
-| [`versions/v0.1.0.md`](versions/v0.1.0.md) | v0.1.0 开发日志 |
+| [`versions/v0.1.0-封版.md`](versions/v0.1.0-封版.md) | v0.1.0 开发日志（已封版） |
+| [`versions/v0.2.0-开发中.md`](versions/v0.2.0-开发中.md) | v0.2.0 开发日志（凭证录入，进行中） |
 | [`SALVAGE_MAP.md`](SALVAGE_MAP.md) | 旧仓库代码出处追溯 |
 | [`../legacy/wencfo/`](../legacy/wencfo/) | 旧 wencfo 工程（brain / backend / tax_service），仅参考 |
